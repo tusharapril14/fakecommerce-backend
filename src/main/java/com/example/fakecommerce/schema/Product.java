@@ -7,26 +7,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
 @Entity
 @Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Product extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
     private BigDecimal price;
     private String imgUrl;
-    private String category;
+
+    @ManyToOne // this can be read as many products belong to one category
+    @JoinColumn(name = "category_id",nullable = false)
+    private Category category;
     private float rating;
 
     @Column(columnDefinition = "TEXT")

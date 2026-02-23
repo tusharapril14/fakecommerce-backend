@@ -1,7 +1,9 @@
 package com.example.fakecommerce.services;
 
 import com.example.fakecommerce.dtos.CreateProductDTO;
+import com.example.fakecommerce.repositories.CategoryRepository;
 import com.example.fakecommerce.repositories.ProductRepository;
+import com.example.fakecommerce.schema.Category;
 import com.example.fakecommerce.schema.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService {
  private final ProductRepository productRepository;
+ private final CategoryRepository categoryRepository;
+
 
     public List<Product> getAllProducts(){
      return this.productRepository.findAll();
@@ -22,18 +26,19 @@ public class ProductService {
     }
 
     public Product createProduct(CreateProductDTO reqDto){
+        Category category = this.categoryRepository.findById(reqDto.getCategoryId()).orElseThrow();
         Product newProduct = Product.builder()
                             .title(reqDto.getTitle())
                             .price(reqDto.getPrice())
                             .rating(reqDto.getRating())
                             .imgUrl(reqDto.getImgUrl())
-                            .category(reqDto.getCategory())
+                            .category(category)
                             .description(reqDto.getDescription()).build();
         return this.productRepository.save(newProduct);
     }
 
     public List<Product> getProductsByCategory(String category){
-        return this.productRepository.findProductByCategory(category);
+        return this.productRepository.findProductByCategoryName(category);
     }
 
     public String deleteProduct(Long id) {
