@@ -2,6 +2,7 @@ package com.example.fakecommerce.controllers;
 
 
 import com.example.fakecommerce.dtos.CreateProductDTO;
+import com.example.fakecommerce.dtos.ResponseProductDto;
 import com.example.fakecommerce.schema.Product;
 import com.example.fakecommerce.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping()
-    public List<Product> findAllProducts(){
+    public List<ResponseProductDto> findAllProducts(){
         return this.productService.getAllProducts();
     }
 

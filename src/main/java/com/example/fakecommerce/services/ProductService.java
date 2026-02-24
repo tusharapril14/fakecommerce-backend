@@ -1,6 +1,7 @@
 package com.example.fakecommerce.services;
 
 import com.example.fakecommerce.dtos.CreateProductDTO;
+import com.example.fakecommerce.dtos.ResponseProductDto;
 import com.example.fakecommerce.repositories.CategoryRepository;
 import com.example.fakecommerce.repositories.ProductRepository;
 import com.example.fakecommerce.schema.Category;
@@ -8,6 +9,7 @@ import com.example.fakecommerce.schema.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,8 +19,28 @@ public class ProductService {
  private final CategoryRepository categoryRepository;
 
 
-    public List<Product> getAllProducts(){
-     return this.productRepository.findAll();
+    public List<ResponseProductDto> getAllProducts(){
+        List<Product> products = this.productRepository.findAll();
+//        List<ResponseProductDto> responseProductDtos = new ArrayList<>();
+//          for(Product product : products){
+//              ResponseProductDto responseProductDto = ResponseProductDto.builder()
+//                      .title(product.getTitle())
+//                      .price(product.getPrice())
+//                      .imgUrl(product.getImgUrl())
+//                      .rating(product.getRating())
+//                      .description(product.getDescription())
+//                      .build();
+//              responseProductDtos.add(responseProductDto);
+//          }
+//          return responseProductDtos;
+        return products.stream().map(product -> ResponseProductDto.builder()
+                        .title(product.getTitle())
+                        .price(product.getPrice())
+                        .imgUrl(product.getImgUrl())
+                        .rating(product.getRating())
+                        .description(product.getDescription())
+                        .build())
+                        .toList();
     }
 
     public Product getProductById(Long id){
