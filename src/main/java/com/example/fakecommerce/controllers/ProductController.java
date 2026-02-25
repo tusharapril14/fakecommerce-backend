@@ -2,6 +2,7 @@ package com.example.fakecommerce.controllers;
 
 
 import com.example.fakecommerce.dtos.CreateProductDTO;
+import com.example.fakecommerce.dtos.ProductsWithDetailsResponseDTO;
 import com.example.fakecommerce.dtos.ResponseProductDto;
 import com.example.fakecommerce.schema.Product;
 import com.example.fakecommerce.services.ProductService;
@@ -22,7 +23,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product findAllProducts(@PathVariable Long id){
+    public ResponseProductDto findAllProducts(@PathVariable Long id){
         return this.productService.getProductById(id);
     }
 
@@ -44,6 +45,15 @@ public class ProductController {
     @GetMapping("/categories")
     public List<String> getAllCategories() {
         return this.productService.findAllCategories();
+    }
+
+    @GetMapping("/details")
+    public List<ProductsWithDetailsResponseDTO> getAllProductsDetails() {
+        return this.productService.getAllProductsDetails();
+    }
+    @GetMapping("/details/{id}")
+    public ProductsWithDetailsResponseDTO getProductDetails(@PathVariable Long id) {
+        return this.productService.getProductDetails(id);
     }
 
 }
