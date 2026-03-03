@@ -27,6 +27,8 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY) // this can be read as many products belong to one category
     @JoinColumn(name = "category_id",nullable = false)
     private Category category;
+
+    @Column(nullable = false)
     private float rating;
 
     @Column(columnDefinition = "TEXT")
